@@ -10,7 +10,7 @@ import http from 'http';
 import https from 'https';
 import yaml from 'yaml';
 
-import { createGroups, ruleProvidersList } from '../../config';
+import { createGroups, nodeBlacklist, ruleProvidersList } from '../../config';
 import { ExpressRouterHandler } from '../../types';
 import axios from '../../utils/axios';
 
@@ -37,7 +37,8 @@ const handler: ExpressRouterHandler = async (req, res) => {
     });
     if (ret.data) {
       const a = yaml.parse(ret.data) as { proxies: { name: string }[] };
-      const nodes = a.proxies.map(item => item.name);
+      const proxies = a.proxies.filter(p => !nodeBlacklist.some(s => p.name && p.name.includes(s)));
+      const nodes = proxies.map(item => item.name);
 
       const ruleSet: string[] = [];
       const ruleProviders = {};
@@ -77,7 +78,7 @@ const handler: ExpressRouterHandler = async (req, res) => {
         'log-level': 'silent',
         'external-controller': ':9090',
         secret: '123456',
-        proxies: a.proxies,
+        proxies,
         'proxy-groups': createGroups(nodes),
         'rule-providers': ruleProviders,
         rules,
