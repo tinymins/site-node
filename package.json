@@ -1,13 +1,13 @@
 {
-  "name": "ts-node-express-boilerplate",
+  "name": "site-node",
   "version": "0.0.0",
-  "description": "TypeScript Node Express Boilerplate",
+  "description": "Node Website",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tinymins/ts-node-express-boilerplate"
+    "url": "https://github.com/tinymins/site-node"
   },
   "private": true,
-  "gitRemoteUrl": "https://github.com/tinymins/ts-node-express-boilerplate/",
+  "gitRemoteUrl": "https://github.com/tinymins/site-node/",
   "scripts": {
     "start": "npm run dev",
     "dev": "ts-node src/index.ts --port=80",
