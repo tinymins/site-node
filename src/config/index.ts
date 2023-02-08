@@ -109,11 +109,3 @@ export const ruleProvidersList: Record<string, { name: string; path: string }[]>
     { name: 'CCN', path: 'https://raw.fastgit.org/luckyyyyy/rule/master/CCN.yaml' },
   ],
 };
-
-export const nodeBlacklist: string[] = [
-  'http://',
-  'https://',
-  '访问官网',
-  '暂时下架',
-  '二手倒卖',
-];

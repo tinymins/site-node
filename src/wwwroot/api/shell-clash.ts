@@ -10,7 +10,7 @@ import http from 'http';
 import https from 'https';
 import yaml from 'yaml';
 
-import { createGroups, nodeBlacklist, ruleProvidersList } from '../../config';
+import { createGroups, ruleProvidersList } from '../../config';
 import { ExpressRouterHandler } from '../../types';
 import axios from '../../utils/axios';
 
@@ -30,6 +30,9 @@ const handler: ExpressRouterHandler = async (req, res) => {
       res.send('missing url');
       return;
     }
+    const filters = typeof req.query.filters === 'string'
+      ? decodeURIComponent(req.query.filters).split('||')
+      : [];
     const ret = await axios.get(url, {
       httpAgent,
       httpsAgent,
@@ -37,7 +40,7 @@ const handler: ExpressRouterHandler = async (req, res) => {
     });
     if (ret.data) {
       const a = yaml.parse(ret.data) as { proxies: { name: string }[] };
-      const proxies = a.proxies.filter(p => !nodeBlacklist.some(s => p.name && p.name.includes(s)));
+      const proxies = a.proxies.filter(p => !filters.some(s => p.name && p.name.includes(s)));
       const nodes = proxies.map(item => item.name);
 
       const ruleSet: string[] = [];
