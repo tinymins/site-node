@@ -25,17 +25,21 @@ export const findRequestFile = (basePath: string, relativePath: string): string 
   if (!absolutePath.endsWith('/') && fs.existsSync(absolutePath) && fs.lstatSync(absolutePath).isFile()) {
     return absolutePath;
   }
-  absolutePath = path.join(absolutePath, 'index.html');
-  if (fs.existsSync(absolutePath) && fs.lstatSync(absolutePath).isFile()) {
-    return absolutePath;
+  let autoAbsolutePath = path.join(absolutePath, 'index.html');
+  if (fs.existsSync(autoAbsolutePath) && fs.lstatSync(autoAbsolutePath).isFile()) {
+    return autoAbsolutePath;
   }
-  absolutePath = path.join(absolutePath, '.ts');
-  if (fs.existsSync(absolutePath) && fs.lstatSync(absolutePath).isFile()) {
-    return absolutePath;
+  autoAbsolutePath = `${absolutePath}.ts`;
+  if (fs.existsSync(autoAbsolutePath) && fs.lstatSync(autoAbsolutePath).isFile()) {
+    return autoAbsolutePath;
   }
-  absolutePath = path.join(absolutePath, 'index.ts');
-  if (fs.existsSync(absolutePath) && fs.lstatSync(absolutePath).isFile()) {
-    return absolutePath;
+  autoAbsolutePath = `${absolutePath}.js`;
+  if (fs.existsSync(autoAbsolutePath) && fs.lstatSync(autoAbsolutePath).isFile()) {
+    return autoAbsolutePath;
+  }
+  autoAbsolutePath = path.join(absolutePath, 'index.ts');
+  if (fs.existsSync(autoAbsolutePath) && fs.lstatSync(autoAbsolutePath).isFile()) {
+    return autoAbsolutePath;
   }
   return void 0;
 };
